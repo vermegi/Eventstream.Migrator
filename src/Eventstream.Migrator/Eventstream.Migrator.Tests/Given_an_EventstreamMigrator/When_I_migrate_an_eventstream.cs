@@ -18,13 +18,9 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
         public override void Arrange()
         {
             _someEvent = new SomeEventBase();
-            var events = new List<SomeEventBase>
-            {
-                _someEvent
-            };
             _eventstreamReader = new Mock<IReadAnEventstream>();
-            _eventstreamReader.Setup(reader => reader.Read<SomeEventBase>())
-                .Returns(events);
+            _eventstreamReader.Setup(reader => reader.Get<SomeEventBase>())
+                .Returns(_someEvent);
 
             _mockMigration = new Mock<IMigrate>();
             _migratedEvent = new SomeEventBase();
@@ -53,9 +49,15 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
         }
 
         [Fact]
-        public void It_tells_the_eventstreamreader_to_read_the_eventstream()
+        public void It_tells_the_eventstreamreader_to_read_an_event_from_the_eventstream()
         {
-            _eventstreamReader.Verify(rdr => rdr.Read<SomeEventBase>());
+            _eventstreamReader.Verify(rdr => rdr.Read());
+        }
+
+        [Fact]
+        public void It_gets_the_read_event_from_the_eventstreamreader()
+        {
+            _eventstreamReader.Verify(reader => reader.Get<SomeEventBase>());
         }
 
         [Fact]

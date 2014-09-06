@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-
-namespace Eventstream.Migrator
+﻿namespace Eventstream.Migrator
 {
     public interface IReadAnEventstream
     {
-        IEnumerable<TEvent> Read<TEvent>();
+        bool Read();
+        TEvent Get<TEvent>();
     }
 }

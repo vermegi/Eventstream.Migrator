@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Eventstream.Migrator
 {
@@ -22,19 +23,29 @@ namespace Eventstream.Migrator
             {
                 var anEvent = _eventReader.Get<TEvent>();
 
-                IEnumerable<TEvent> migratedEvents = new List<TEvent>{anEvent};
+                var inputQueueForMigration = new Queue<TEvent>();
+                inputQueueForMigration.Enqueue(anEvent);
 
                 foreach (var migration in migrations)
                 {
-                    foreach (var migratedEvent in migratedEvents)
+                    var outputQueueOfMigration = new Queue<TEvent>();
+                    while (inputQueueForMigration.Count > 0)
                     {
-                        migratedEvents = migration.Migrate(anEvent);                        
-                    }
+                        var eventToProcess = inputQueueForMigration.Dequeue();
 
-                    foreach (var migratedEvent in migratedEvents)
-                    {
-                        _eventWriter.Save(migratedEvent);
+                        var migratedEvents = migration.Migrate(eventToProcess);
+
+                        foreach (var migratedEvent in migratedEvents)
+                        {
+                            outputQueueOfMigration.Enqueue(migratedEvent);
+                        }
                     }
+                    inputQueueForMigration = outputQueueOfMigration;
+                }
+
+                foreach (var migratedEvent in inputQueueForMigration)
+                {
+                    _eventWriter.Save(migratedEvent);
                 }
             }
         }

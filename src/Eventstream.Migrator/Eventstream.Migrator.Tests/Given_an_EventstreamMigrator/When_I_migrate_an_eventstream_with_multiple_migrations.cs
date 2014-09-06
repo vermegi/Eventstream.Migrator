@@ -35,6 +35,15 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
             _eventstreamreader.Setup(reader => reader.Get<SomeEventBase>())
                 .Returns(_someEvent);
 
+            SetupMigrationMocks();
+
+            _eventstreamwriter = new Mock<IWriteAnEventstream>();
+
+            _sut = new EventStreamMigrator(_eventstreamreader.Object, _migrationgetter.Object, _eventstreamwriter.Object);
+        }
+
+        private void SetupMigrationMocks()
+        {
             var migratedEventsOfSomeEvent = new List<SomeEventBase>
             {
                 _migratedEvent1,
@@ -66,10 +75,6 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
             _migrationgetter = new Mock<IGetEventstreamMigrations>();
             _migrationgetter.Setup(getter => getter.GetMigrations())
                 .Returns(migrations);
-
-            _eventstreamwriter = new Mock<IWriteAnEventstream>();
-
-            _sut = new EventStreamMigrator(_eventstreamreader.Object, _migrationgetter.Object, _eventstreamwriter.Object);
         }
 
         public override void Act()
@@ -88,6 +93,21 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
         {
             _secondMigration.Verify(migration => migration.Migrate(_migratedEvent1));
             _secondMigration.Verify(migration => migration.Migrate(_migratedEvent2));
+        }
+
+        [Fact]
+        public void The_second_migration_does_not_run_on_the_original_event()
+        {
+            _secondMigration.Verify(migration => migration.Migrate(_someEvent), Times.Never);
+        }
+
+        [Fact]
+        public void It_saves_the_eventual_migrated_events()
+        {
+            _eventstreamwriter.Verify(writer => writer.Save(_migratedEvent3));
+            _eventstreamwriter.Verify(writer => writer.Save(_migratedEvent4));
+            _eventstreamwriter.Verify(writer => writer.Save(_migratedEvent5));
+            _eventstreamwriter.Verify(writer => writer.Save(_migratedEvent6));
         }
     }
 }

@@ -22,6 +22,11 @@ namespace Eventstream.Migrator
         public void RunMigrations<TEvent>()
         {
             var migrations = _migrationgetter.GetMigrations();
+
+            var migrationlist = migrations as IList<IMigrate> ?? migrations.ToList();
+            if (migrations == null || !migrationlist.Any())
+                return;
+
             while (_eventReader.Read())
             {
                 var anEvent = _eventReader.Get<TEvent>();
@@ -29,7 +34,7 @@ namespace Eventstream.Migrator
                 var inputQueueForMigration = new Queue<TEvent>();
                 inputQueueForMigration.Enqueue(anEvent);
 
-                inputQueueForMigration = migrations.Aggregate(inputQueueForMigration, ProcessMigration);
+                inputQueueForMigration = migrationlist.Aggregate(inputQueueForMigration, ProcessMigration);
 
                 foreach (var migratedEvent in inputQueueForMigration)
                 {

@@ -11,10 +11,18 @@ namespace Eventstream.Migrator
             _migrationgetter = migrationgetter;
         }
 
-        public void RunMigrations()
+        public void RunMigrations<TEvent>()
         {
-            _reader.Read();
-            _migrationgetter.GetMigrations();
+            var events = _reader.Read<TEvent>();
+            var migrations = _migrationgetter.GetMigrations();
+
+            foreach (var anEvent in events)
+            {
+                foreach (var migration in migrations)
+                {
+                    migration.Migrate(anEvent);
+                }
+            }
         }
     }
 }

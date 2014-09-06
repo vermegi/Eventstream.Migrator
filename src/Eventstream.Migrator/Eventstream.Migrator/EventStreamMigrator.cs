@@ -15,18 +15,19 @@ namespace Eventstream.Migrator
 
         public void RunMigrations<TEvent>()
         {
-            _eventReader.Read();
             var migrations = _migrationgetter.GetMigrations();
-
-            var anEvent = _eventReader.Get<TEvent>();
-
-            foreach (var migration in migrations)
+            while (_eventReader.Read())
             {
-                var migratedEvents = migration.Migrate(anEvent);
+                var anEvent = _eventReader.Get<TEvent>();
 
-                foreach (var migratedEvent in migratedEvents)
+                foreach (var migration in migrations)
                 {
-                    _eventWriter.Save(migratedEvent);
+                    var migratedEvents = migration.Migrate(anEvent);
+
+                    foreach (var migratedEvent in migratedEvents)
+                    {
+                        _eventWriter.Save(migratedEvent);
+                    }
                 }
             }
         }

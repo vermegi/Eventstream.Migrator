@@ -17,8 +17,15 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
 
         public override void Arrange()
         {
+            var readcounter = 0;
             _someEvent = new SomeEventBase();
             _eventstreamReader = new Mock<IReadAnEventstream>();
+            _eventstreamReader.Setup(reader => reader.Read())
+                .Returns(() =>
+                {
+                    readcounter++;
+                    return readcounter <= 1;
+                });
             _eventstreamReader.Setup(reader => reader.Get<SomeEventBase>())
                 .Returns(_someEvent);
 

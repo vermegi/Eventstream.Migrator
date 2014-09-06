@@ -40,6 +40,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="EventStreamMigrator.cs" />
+    <Compile Include="IGetEventstreamMigrations.cs" />
+    <Compile Include="IMigrate.cs" />
     <Compile Include="IReadAnEventstream.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

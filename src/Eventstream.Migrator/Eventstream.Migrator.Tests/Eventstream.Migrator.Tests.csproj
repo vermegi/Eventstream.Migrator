@@ -48,6 +48,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Given_an_EventstreamMigrator\When_I_migrate_an_eventstream.cs" />
+    <Compile Include="Given_an_EventstreamMigrator\When_I_migrate_an_eventstream_with_multiple_events.cs" />
+    <Compile Include="Given_an_EventstreamMigrator\When_I_migrate_an_eventstream_with_multiple_migrations.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utilities\AAATest.cs" />
     <Compile Include="Utilities\SetItUp.cs" />

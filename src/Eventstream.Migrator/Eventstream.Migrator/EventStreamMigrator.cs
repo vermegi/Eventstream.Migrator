@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Eventstream.Migrator
 {
     public class EventStreamMigrator
@@ -20,9 +22,14 @@ namespace Eventstream.Migrator
             {
                 var anEvent = _eventReader.Get<TEvent>();
 
+                IEnumerable<TEvent> migratedEvents = new List<TEvent>{anEvent};
+
                 foreach (var migration in migrations)
                 {
-                    var migratedEvents = migration.Migrate(anEvent);
+                    foreach (var migratedEvent in migratedEvents)
+                    {
+                        migratedEvents = migration.Migrate(anEvent);                        
+                    }
 
                     foreach (var migratedEvent in migratedEvents)
                     {

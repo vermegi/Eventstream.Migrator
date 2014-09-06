@@ -43,7 +43,9 @@
     <Compile Include="IGetEventstreamMigrations.cs" />
     <Compile Include="IMigrate.cs" />
     <Compile Include="IReadAnEventstream.cs" />
+    <Compile Include="IReadAssemblyData.cs" />
     <Compile Include="IWriteAnEventstream.cs" />
+    <Compile Include="MigrationGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

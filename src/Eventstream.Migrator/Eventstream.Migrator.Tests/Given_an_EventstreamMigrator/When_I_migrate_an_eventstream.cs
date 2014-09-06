@@ -27,24 +27,4 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
             _eventstreamReader.Verify(rdr => rdr.Read());
         }
     }
-
-    public interface IReadAnEventstream
-    {
-        void Read();
-    }
-
-    public class EventStreamMigrator
-    {
-        private readonly IReadAnEventstream _reader;
-
-        public EventStreamMigrator(IReadAnEventstream reader)
-        {
-            _reader = reader;
-        }
-
-        public void RunMigrations()
-        {
-            _reader.Read();
-        }
-    }
 }

@@ -12,6 +12,8 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
         private Mock<IGetEventstreamMigrations> _migrationgetter;
         private Mock<IMigrate> _mockMigration;
         private SomeEventBase _someEvent;
+        private Mock<IWriteAnEventstream> _eventstreamWriter;
+        private SomeEventBase _migratedEvent;
 
         public override void Arrange()
         {
@@ -25,6 +27,13 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
                 .Returns(events);
 
             _mockMigration = new Mock<IMigrate>();
+            _migratedEvent = new SomeEventBase();
+            var migratedEvents = new List<SomeEventBase>
+            {
+                _migratedEvent
+            };
+            _mockMigration.Setup(migration => migration.Migrate(_someEvent))
+                .Returns(migratedEvents);
             var migrations = new List<IMigrate>
             {
                 _mockMigration.Object
@@ -33,7 +42,9 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
             _migrationgetter.Setup(getter => getter.GetMigrations())
                 .Returns(migrations);
 
-            _sut = new EventStreamMigrator(_eventstreamReader.Object, _migrationgetter.Object);
+            _eventstreamWriter = new Mock<IWriteAnEventstream>();
+
+            _sut = new EventStreamMigrator(_eventstreamReader.Object, _migrationgetter.Object, _eventstreamWriter.Object);
         }
 
         public override void Act()
@@ -57,6 +68,12 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamMigrator
         public void It_applies_each_migration_to_each_event_in_the_eventstream()
         {
             _mockMigration.Verify(migration => migration.Migrate(_someEvent));
+        }
+
+        [Fact]
+        public void It_tells_the_eventstreamwriter_to_save_the_migrated_event()
+        {
+            _eventstreamWriter.Verify(writer => writer.Save(_migratedEvent));
         }
     }
 

@@ -9,7 +9,10 @@ namespace Eventstream.Migrator
         private readonly IGetEventstreamMigrations _migrationgetter;
         private readonly IWriteAnEventstream _eventWriter;
 
-        public EventStreamMigrator(IReadAnEventstream eventReader, IGetEventstreamMigrations migrationgetter, IWriteAnEventstream eventWriter)
+        public EventStreamMigrator(
+            IReadAnEventstream eventReader, 
+            IGetEventstreamMigrations migrationgetter, 
+            IWriteAnEventstream eventWriter)
         {
             _eventReader = eventReader;
             _migrationgetter = migrationgetter;
@@ -26,28 +29,32 @@ namespace Eventstream.Migrator
                 var inputQueueForMigration = new Queue<TEvent>();
                 inputQueueForMigration.Enqueue(anEvent);
 
-                foreach (var migration in migrations)
-                {
-                    var outputQueueOfMigration = new Queue<TEvent>();
-                    while (inputQueueForMigration.Count > 0)
-                    {
-                        var eventToProcess = inputQueueForMigration.Dequeue();
-
-                        var migratedEvents = migration.Migrate(eventToProcess);
-
-                        foreach (var migratedEvent in migratedEvents)
-                        {
-                            outputQueueOfMigration.Enqueue(migratedEvent);
-                        }
-                    }
-                    inputQueueForMigration = outputQueueOfMigration;
-                }
+                inputQueueForMigration = migrations.Aggregate(inputQueueForMigration, ProcessMigration);
 
                 foreach (var migratedEvent in inputQueueForMigration)
                 {
                     _eventWriter.Save(migratedEvent);
                 }
             }
+        }
+
+        private static Queue<TEvent> ProcessMigration<TEvent>(Queue<TEvent> inputQueueForMigration, IMigrate migration)
+        {
+            var outputQueueOfMigration = new Queue<TEvent>();
+
+            while (inputQueueForMigration.Count > 0)
+            {
+                var eventToProcess = inputQueueForMigration.Dequeue();
+
+                var migratedEvents = migration.Migrate(eventToProcess);
+
+                foreach (var migratedEvent in migratedEvents)
+                {
+                    outputQueueOfMigration.Enqueue(migratedEvent);
+                }
+            }
+
+            return outputQueueOfMigration;
         }
     }
 }

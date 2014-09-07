@@ -40,6 +40,13 @@ namespace Eventstream.Migrator.Tests.Given_a_MigrationsGetter
             Assert.True(_result.Any(mig => mig.GetType() == typeof (FirstMigration)));
             Assert.True(_result.Any(mig => mig.GetType() == typeof (SecondMigration)));
         }
+
+        [Fact]
+        public void It_returns_these_migrations_in_order()
+        {
+            Assert.Equal(0, _result.First().Order);
+            Assert.Equal(1, _result.Last().Order);
+        }
     }
 
     public class SecondMigration : IMigrate
@@ -48,6 +55,8 @@ namespace Eventstream.Migrator.Tests.Given_a_MigrationsGetter
         {
             return null;
         }
+
+        public int Order { get { return 0; } }
     }
 
     public class FirstMigration : IMigrate
@@ -56,5 +65,7 @@ namespace Eventstream.Migrator.Tests.Given_a_MigrationsGetter
         {
             return null;
         }
+
+        public int Order { get { return 1; } }
     }
 }

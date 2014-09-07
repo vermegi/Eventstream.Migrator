@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Eventstream.Migrator
 {
@@ -16,10 +17,9 @@ namespace Eventstream.Migrator
         {
             var migrationTypes = _assemblyreader.GetMigrationTypes();
 
-            foreach (var migrationType in migrationTypes)
-            {
-                yield return (IMigrate) Activator.CreateInstance(migrationType);
-            }
+            return migrationTypes
+                .Select(migrationType => (IMigrate) Activator.CreateInstance(migrationType))
+                .OrderBy(mig => mig.Order);
         }
     }
 }

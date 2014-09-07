@@ -49,7 +49,9 @@
     <Compile Include="Reading\IReadAnEventstream.cs" />
     <Compile Include="Reading\IReadData.cs" />
     <Compile Include="Utilities\ISerialize.cs" />
+    <Compile Include="Writing\EventstreamWriter.cs" />
     <Compile Include="Writing\IWriteAnEventstream.cs" />
+    <Compile Include="Writing\IWriteData.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

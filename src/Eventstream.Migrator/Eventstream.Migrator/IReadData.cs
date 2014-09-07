@@ -2,5 +2,7 @@
 {
     public interface IReadData
     {
+        bool Read();
+        object GetData();
     }
 }

@@ -5,7 +5,7 @@ using Xunit;
 
 namespace Eventstream.Migrator.Tests.Given_an_EventstreamReader
 {
-    public class When_I_read_an_eventstream_and_theres_na_data_on_the_reader : AAATest
+    public class When_I_read_an_eventstream_and_theres_no_data_on_the_reader : AAATest
     {
         private EventstreamReader _sut;
         private Mock<IReadData> _datareader;
@@ -16,7 +16,7 @@ namespace Eventstream.Migrator.Tests.Given_an_EventstreamReader
         {
             _datareader = new Mock<IReadData>();
 
-            _sut = new EventstreamReader(_datareader.Object);
+            _sut = new EventstreamReader(_datareader.Object, null);
         }
 
         public override void Act()

@@ -1,5 +1,7 @@
-﻿using Eventstream.Migrator.Tests.Given_an_EventstreamMigrator;
+﻿using Eventstream.Migrator.Reading;
+using Eventstream.Migrator.Tests.Given_an_EventstreamMigrator;
 using Eventstream.Migrator.Tests.Utilities;
+using Eventstream.Migrator.Utilities;
 using Moq;
 using Xunit;
 

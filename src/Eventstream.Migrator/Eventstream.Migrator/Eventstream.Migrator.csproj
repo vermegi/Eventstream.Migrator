@@ -39,17 +39,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EventStreamMigrator.cs" />
-    <Compile Include="EventstreamReader.cs" />
-    <Compile Include="IGetEventstreamMigrations.cs" />
-    <Compile Include="IMigrate.cs" />
-    <Compile Include="IReadAnEventstream.cs" />
-    <Compile Include="IReadAssemblyData.cs" />
-    <Compile Include="IReadData.cs" />
-    <Compile Include="ISerialize.cs" />
-    <Compile Include="IWriteAnEventstream.cs" />
-    <Compile Include="MigrationGetter.cs" />
+    <Compile Include="Migrating\EventStreamMigrator.cs" />
+    <Compile Include="Migrating\IGetEventstreamMigrations.cs" />
+    <Compile Include="Migrating\IMigrate.cs" />
+    <Compile Include="Migrating\IReadAssemblyData.cs" />
+    <Compile Include="Migrating\MigrationGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reading\EventstreamReader.cs" />
+    <Compile Include="Reading\IReadAnEventstream.cs" />
+    <Compile Include="Reading\IReadData.cs" />
+    <Compile Include="Utilities\ISerialize.cs" />
+    <Compile Include="Writing\IWriteAnEventstream.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

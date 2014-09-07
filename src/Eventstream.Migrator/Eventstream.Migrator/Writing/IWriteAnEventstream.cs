@@ -1,4 +1,4 @@
-namespace Eventstream.Migrator
+namespace Eventstream.Migrator.Writing
 {
     public interface IWriteAnEventstream
     {

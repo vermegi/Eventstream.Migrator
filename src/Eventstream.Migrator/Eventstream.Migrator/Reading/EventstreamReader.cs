@@ -1,4 +1,6 @@
-﻿namespace Eventstream.Migrator
+﻿using Eventstream.Migrator.Utilities;
+
+namespace Eventstream.Migrator.Reading
 {
     public class EventstreamReader : IReadAnEventstream
     {

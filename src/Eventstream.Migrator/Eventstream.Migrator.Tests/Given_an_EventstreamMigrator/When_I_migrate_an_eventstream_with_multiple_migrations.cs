@@ -1,5 +1,8 @@
 ﻿using System.Collections.Generic;
+using Eventstream.Migrator.Migrating;
+using Eventstream.Migrator.Reading;
 using Eventstream.Migrator.Tests.Utilities;
+using Eventstream.Migrator.Writing;
 using Moq;
 using Xunit;
 

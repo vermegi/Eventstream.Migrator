@@ -1,7 +1,9 @@
 using System.Collections.Generic;
 using System.Linq;
+using Eventstream.Migrator.Reading;
+using Eventstream.Migrator.Writing;
 
-namespace Eventstream.Migrator
+namespace Eventstream.Migrator.Migrating
 {
     public class EventStreamMigrator
     {

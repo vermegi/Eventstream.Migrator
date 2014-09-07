@@ -1,4 +1,4 @@
-﻿namespace Eventstream.Migrator
+﻿namespace Eventstream.Migrator.Reading
 {
     public interface IReadAnEventstream
     {

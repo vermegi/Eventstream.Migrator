@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Eventstream.Migrator
+namespace Eventstream.Migrator.Migrating
 {
     public interface IGetEventstreamMigrations
     {

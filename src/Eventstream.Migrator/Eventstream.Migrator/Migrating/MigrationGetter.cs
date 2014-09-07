@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace Eventstream.Migrator
+namespace Eventstream.Migrator.Migrating
 {
     public class MigrationGetter : IGetEventstreamMigrations
     {
@@ -18,7 +18,7 @@ namespace Eventstream.Migrator
             var migrationTypes = _assemblyreader.GetMigrationTypes();
 
             return migrationTypes
-                .Select(migrationType => (IMigrate) Activator.CreateInstance(migrationType))
+                .Select(migrationType => (IMigrate) Activator.CreateInstance((Type) migrationType))
                 .OrderBy(mig => mig.Order);
         }
     }

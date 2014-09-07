@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Eventstream.Migrator.Migrating;
 using Eventstream.Migrator.Tests.Utilities;
 using Moq;
 using Xunit;

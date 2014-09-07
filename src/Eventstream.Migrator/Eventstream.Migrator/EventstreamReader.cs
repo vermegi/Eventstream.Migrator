@@ -24,8 +24,7 @@
                 return default(TEvent);
 
             var data = _datareader.GetData();
-            _serializer.Deserialize<TEvent>(data);
-            return default(TEvent);
+            return _serializer.Deserialize<TEvent>(data);
         }
     }
 }

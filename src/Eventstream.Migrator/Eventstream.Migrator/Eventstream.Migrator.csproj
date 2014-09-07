@@ -46,6 +46,7 @@
     <Compile Include="IReadAnEventstream.cs" />
     <Compile Include="IReadAssemblyData.cs" />
     <Compile Include="IReadData.cs" />
+    <Compile Include="ISerialize.cs" />
     <Compile Include="IWriteAnEventstream.cs" />
     <Compile Include="MigrationGetter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
